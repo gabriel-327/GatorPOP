@@ -1,18 +1,32 @@
 #include <iostream>
 #include "FrontEnd.h"
-#include <SFML/Graphics.hpp>
+#include "HeapSort.h"
 using namespace std;
 
 int main() {
-    vector<pair<string, string>> song_data;
-    for(int i = 0; i < 10; i++){
-        // Using to see if it will write data, we need to find a way to write our top 10 spotify data
-        std::string player = "Year:" + to_string(i + 2000);
-        std::string score = std::to_string(1000 - i * 100);
-        song_data.push_back({player, score});
+    //used for testing
+    vector<pair<int, string>> arr = {
+            {1975, "Bohemian Rhapsody"},
+            {2017, "Shape of You"},
+            {1983, "Billie Jean"},
+            {1991, "Smells Like Teen Spirit"},
+            {2010, "Rolling in the Deep"},
+            {1965, "Like a Rolling Stone"},
+            {2014, "Uptown Funk"},
+            {1976, "Hotel California"},
+            {1988, "Sweet Child O' Mine"},
+            {1971, "Imagine"},
+            {2019, "Bad Guy"}
+    };
+    HeapDataStructure test;
+    test.HeapSort(arr);
 
-    }
+    vector<pair<string, string>> song_data;
+    song_data = ConvertVec(arr);
+
     WriteToFile(song_data);
+
     CreateHomeScreen();
+
     return 0;
 }

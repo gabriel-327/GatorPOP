@@ -5,9 +5,9 @@
 using namespace std;
 // Define class etc
 
-
 void SetText(sf::Text &text, float x, float y);
 int CreateHomeScreen();
 void CreateChart(sf::Font welcome_font);
 vector<string> ReadFile();
-void WriteToFile(vector<pair<string, string>> song_data);
+void WriteToFile(vector<pair<string, string>> &song_data);
+vector<pair<string, string>> ConvertVec(vector<pair<int, string>> &raw_data);

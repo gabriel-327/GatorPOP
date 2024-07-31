@@ -41,7 +41,6 @@ int CreateHomeScreen() {
     buttonSprite.setTexture(buttonTexture);
     buttonSprite.setPosition((float) 440, (float) 350);
 
-
     while (window.isOpen()) {
         sf::Event event;
         while (window.pollEvent(event)) {
@@ -53,8 +52,11 @@ int CreateHomeScreen() {
                 CreateChart(welcome_font);
 //                cout << "Button Clicked" << endl;
             }
-
         }
+
+
+
+
         // Window color and text
         window.clear(sf::Color(208, 240, 192));
         window.draw(welcome_text);
@@ -125,19 +127,30 @@ vector<string> ReadFile() {
         leaderboard_vec.push_back(temp);
     }
     readleaderboard.close();
-    // not necessary
-    for (const auto& element : leaderboard_vec) {
-        // Print the current element
-        std::cout << element << std::endl;
-    }
     return leaderboard_vec;
 }
 
-void WriteToFile(vector<pair<string, string>> song_data) {
+void WriteToFile(vector<pair<string, string>> &song_data) {
     ofstream write_to_file;
+    int count_to_10 = 0;
     write_to_file.open("files/leaderboard.txt");
     for(auto& entry : song_data){
-        write_to_file << entry.first << ", " << entry.second << "\n";
+        if(count_to_10 <= 10) {
+            write_to_file << entry.first << ", " << entry.second << "\n";
+            count_to_10 ++;
+        }
     }
     write_to_file.close();
 }
+
+vector<pair<string, string>> ConvertVec(vector<pair<int, string>> &raw_data) {
+    vector<pair<string, string>> song_data;
+    for(int i = 0; i < raw_data.size(); i++){
+// Using to see if it will write data, we need to find a way to write our top 10 spotify data
+        std::string date = to_string(raw_data[i].first);
+        std::string song = raw_data[i].second;
+        song_data.push_back({date, song});
+    }
+    return song_data;
+}
+
