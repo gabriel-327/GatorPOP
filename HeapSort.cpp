@@ -49,10 +49,16 @@ void HeapDataStructure::MaxHeap(vector<pair<int, string>> &heap_vec, int heapsiz
 // Function built around Professor Aman's YouTube video "Heaps (5e): Heap Sort" : https://www.youtube.com/watch?v=bzR6hW8I6ao&list=PLvBZ6Nw3S6DQqWD5iiPGIWqFLiuRaQYC1&index=5
 void HeapDataStructure::HeapSort(vector<pair<int, string>> &heap_vec) {
     int heapsize = heap_vec.size();
-    MaxHeap(heap_vec, heapsize);
+    // Build heap in place
+    for (int i = heapsize / 2 - 1; i >= 0; i--)
+        Heapify(heap_vec, heapsize, i);
 
-    for(int i = heapsize - 1; i > 0; i--){
-        PairSwap(heap_vec[0], heap_vec[i]);
+    // Extract last element
+    for (int i = heapsize - 1; i >= 0; i--) {
+        // Move current root to end
+        swap(heap_vec[0], heap_vec[i]);
+
+        // call max heapify on the reduced heap
         Heapify(heap_vec, i, 0);
     }
 
