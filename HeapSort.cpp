@@ -53,7 +53,7 @@ void HeapDataStructure::HeapSort(vector<pair<int, string>> &heap_vec) {
     for (int i = heapsize / 2 - 1; i >= 0; i--)
         Heapify(heap_vec, heapsize, i);
 
-    // Extract last element
+    // Extract last element in heap
     for (int i = heapsize - 1; i >= 0; i--) {
         // Move current root to end
         swap(heap_vec[0], heap_vec[i]);
