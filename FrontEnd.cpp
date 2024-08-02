@@ -137,13 +137,15 @@ vector<string> ReadFile() {
 
 void WriteToFile(vector<pair<string, string>> &song_data) {
     ofstream write_to_file;
-    int count_to_10 = 0;
+    int size = song_data.size();
+    // Calculate start_index to avoid negative index
+    int start_index = 0;
+    if (size > 50) {
+        start_index = size - 50;
+    }
     write_to_file.open("files/leaderboard.txt");
-    for(auto& entry : song_data){
-        if(count_to_10 <= 10) {
-            write_to_file << entry.first << ", " << entry.second << "\n";
-            count_to_10 ++;
-        }
+    for(int i = size - 1; i >= start_index; --i) {
+        write_to_file << song_data[i].first << ", " << song_data[i].second << "\n";
     }
     write_to_file.close();
 }
