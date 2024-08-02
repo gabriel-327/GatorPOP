@@ -73,7 +73,7 @@ void CreateChart(sf::Font welcome_font)
 
     sf::RenderWindow leaderboard_window(sf::VideoMode(1024,768), "Playlist");
 
-    sf::Text leaderboard_text("Hello What Do We Want To Say Here", welcome_font, 20);
+    sf::Text leaderboard_text("Songs Ranked By Release Date", welcome_font, 20);
     leaderboard_text.setFillColor(sf::Color::Black);
     leaderboard_text.setStyle(sf::Text::Bold | sf::Text::Underlined);
     SetText(leaderboard_text, 512, 100);
@@ -81,9 +81,14 @@ void CreateChart(sf::Font welcome_font)
     string all_names;
     vector<string> leaderboard_vec;
     leaderboard_vec = ReadFile();
-    for (int i = 0; i < leaderboard_vec.size(); i += 2) {
+    for (int i = 0; i < leaderboard_vec.size() - 2; i += 2) {
         int num_place = i / 2 + 1;
-        all_names += to_string(num_place) + ".\t" + leaderboard_vec[i] + "\t" + leaderboard_vec[i + 1] + "\n\n";
+        if(num_place < 10){
+            all_names += to_string(num_place) + ".\     " + leaderboard_vec[i] + "\t" + leaderboard_vec[i + 1] + "\n\n";
+        }
+        else{
+            all_names += to_string(num_place) + ".\    " + leaderboard_vec[i] + "\t" + leaderboard_vec[i + 1] + "\n\n";
+        }
     }
 
     sf::Text player_data;
