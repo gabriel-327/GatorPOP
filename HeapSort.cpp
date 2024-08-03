@@ -36,16 +36,6 @@ void HeapDataStructure::Heapify(vector<pair<int, string>> &heap_vec, int heapsiz
     }
 }
 
-void HeapDataStructure::MaxHeap(vector<pair<int, string>> &heap_vec, int heapsize) {
-    // Index of last lead node
-    int first_index = (heapsize/2) - 1;
-    // Reverse level order traversal
-    for(int i = first_index; i>= 0; i--){
-        Heapify(heap_vec, heapsize, i);
-    }
-
-}
-
 // Function built around Professor Aman's YouTube video "Heaps (5e): Heap Sort" : https://www.youtube.com/watch?v=bzR6hW8I6ao&list=PLvBZ6Nw3S6DQqWD5iiPGIWqFLiuRaQYC1&index=5
 void HeapDataStructure::HeapSort(vector<pair<int, string>> &heap_vec) {
     int heapsize = heap_vec.size();
@@ -56,7 +46,7 @@ void HeapDataStructure::HeapSort(vector<pair<int, string>> &heap_vec) {
     // Extract last element in heap
     for (int i = heapsize - 1; i >= 0; i--) {
         // Move current root to end
-        swap(heap_vec[0], heap_vec[i]);
+        PairSwap(heap_vec[0], heap_vec[i]);
 
         // call max heapify on the reduced heap
         Heapify(heap_vec, i, 0);

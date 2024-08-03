@@ -7,7 +7,6 @@ using namespace std;
 class HeapDataStructure{
 private:
     // Consider making a private variable the song data
-    void MaxHeap(vector<pair<int, string>> &heap_vec, int heapsize);
 
     void Heapify(vector<pair<int, string>> &heap_vec, int heapsize, int root);
 
