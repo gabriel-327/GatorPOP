@@ -1,17 +1,20 @@
-cmake_minimum_required(VERSION 3.27)
-project(DSA_SpotifyAPI)
+cmake_minimum_required(VERSION 3.26.4)
+project(GatorPOP)
 
 set(CMAKE_CXX_STANDARD 11)
 
-add_executable(DSA_SpotifyAPI main.cpp
+add_executable(GatorPOP main.cpp
         FrontEnd.cpp
         FrontEnd.h
         HeapSort.cpp
-        HeapSort.h)
+        HeapSort.h
+        HashMap.h
+        HashMap.cpp)
 
-set(SFML_STATIC_LIBRARIES TRUE)
-set(SFML_DIR C:/SFML/lib/cmake/SFML)
+# SFML setup
+set(SFML_DIR /Users/srividyadonthineni/Downloads/SFML/lib/cmake/SFML)
 find_package(SFML COMPONENTS system window graphics audio network REQUIRED)
 
-include_directories(c:/SFML/include/SFML)
-target_link_libraries(DSA_SpotifyAPI sfml-system sfml-window sfml-graphics sfml-audio)
+include_directories(/Users/srividyadonthineni/Downloads/SFML/include)
+
+target_link_libraries(GatorPOP sfml-system sfml-window sfml-graphics sfml-audio)
