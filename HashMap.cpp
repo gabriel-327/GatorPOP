@@ -5,7 +5,7 @@
 #include "HashMap.h"
 using namespace std;
 
-unordered_map<string, string> HashMap::RetrieveSongsFromYear(const vector<pair<int, std::string>> &song_data, int year) {
+unordered_map<string, string> HashMap::RetrieveSongsFromYear(const vector<pair<int, string>> &song_data, int year) {
     unordered_map<string, string> song_map;
     for (const auto& song : song_data) {
         int song_year = song.first;
@@ -19,7 +19,7 @@ unordered_map<string, string> HashMap::RetrieveSongsFromYear(const vector<pair<i
     return song_map;
 }
 
-void HashMap::DisplayBottom50Songs(unordered_map<std::string, std::string> &song_map) {
+void HashMap::DisplayBottom50Songs(unordered_map<string, string> &song_map) {
     vector<string> keys;
     for (const auto& song : song_map) {
         keys.push_back(song.first);

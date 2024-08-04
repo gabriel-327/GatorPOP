@@ -14,9 +14,9 @@ using namespace std;
 
 class HashMap {
 public:
-    std::unordered_map<std::string, std::string> RetrieveSongsFromYear(const std::vector<std::pair<int, std::string>> &song_data, int year);
-    void DisplayBottom50Songs(std::unordered_map<std::string, std::string> &song_map);
-    void SortAndDisplaySongs(const std::vector<std::pair<int, std::string>> &song_data);
+    unordered_map<string, string> RetrieveSongsFromYear(const vector<pair<int, string>> &song_data, int year);
+    void DisplayBottom50Songs(unordered_map<std::string, string> &song_map);
+    void SortAndDisplaySongs(const vector<std::pair<int,string>> &song_data);
 };
 
 

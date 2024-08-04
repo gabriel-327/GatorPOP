@@ -23,6 +23,7 @@ int main() {
     //HeapDataStructure test;
     //test.HeapSort(arr);
 
+    //testing hashmap
     HashMap testHashMap;
     testHashMap.SortAndDisplaySongs(arr);
 
