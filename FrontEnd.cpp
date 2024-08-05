@@ -8,7 +8,7 @@ using namespace std;
 string FrontEnd::formatDate(string& date) {
     // Changes only the date
     if (date.size() != 8) return date;
-    // Places the dashes in correct spot
+    // Places the dashes into correct spot
     return date.substr(0, 4) + "-" + date.substr(4, 2) + "-" + date.substr(6, 2);
 }
 
