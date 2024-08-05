@@ -1,15 +1,19 @@
-#ifndef FRONTEND_H
-#define FRONTEND_H
-
+#pragma once
 #include <SFML/Graphics.hpp>
 #include <vector>
 #include <string>
+using namespace std;
 
-void SetText(sf::Text &text, float x, float y);
-int CreateHomeScreen();
-void CreateChart(sf::Font welcome_font);
-std::vector<std::string> ReadFile();
-void WriteToFile(std::vector<std::pair<std::string, std::string>> &song_data);
-std::vector<std::pair<std::string, std::string>> ConvertVec(std::vector<std::pair<int, std::string>> &raw_data);
+class FrontEnd{
+public:
+    void CreateHomeScreen();
+    void WriteToFile(vector<pair<string, string>> &song_data);
+    vector<pair<string, string>> ConvertVec(vector<pair<int, string>> &raw_data);
 
-#endif // FRONTEND_H
+
+private:
+    void SetText(sf::Text &text, float x, float y);
+    void CreateChart(sf::Font welcome_font);
+    vector<string> ReadFile();
+    string formatDate(string& date);
+};
