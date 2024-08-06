@@ -3,7 +3,7 @@
 #include <vector>
 using namespace std;
 
-
+// function which swaps two pairs of <int, string>
 void HeapDataStructure::PairSwap(pair<int, string> &one, pair<int, string> &two) {
     pair<int, string> holder = one;
     one = two;

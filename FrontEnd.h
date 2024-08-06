@@ -20,6 +20,7 @@ public:
 
 
 private:
+    // Class variables to turn on each sort
     bool orange_button_on;
     bool blue_button_on;
     // Helper functions for create home screen
