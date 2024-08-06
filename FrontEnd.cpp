@@ -32,6 +32,14 @@ void FrontEnd::CreateHomeScreen() {
     welcome_text.setStyle(sf::Text::Bold);
     SetText(welcome_text, 125, 100);
 
+    sf::Text heap_text("Heap Sort", welcome_font, 30);
+    heap_text.setFillColor(sf::Color::Black);
+    SetText(heap_text, 340, 340);
+
+    sf::Text quicksort_text("Quick Sort", welcome_font, 30);
+    quicksort_text.setFillColor(sf::Color::Black);
+    SetText(quicksort_text, 540, 340);
+
     sf::Texture buttonTexture;
     if (!buttonTexture.loadFromFile("files/images/Generate Button.png")) {
         return;
@@ -75,6 +83,8 @@ void FrontEnd::CreateHomeScreen() {
 
         window.clear(sf::Color(208, 240, 192));
         window.draw(welcome_text);
+        window.draw(heap_text);
+        window.draw(quicksort_text);
         window.draw(buttonSprite);
         window.draw(buttonSpriteTwo);
         window.display();
