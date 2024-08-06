@@ -1,13 +1,12 @@
 #include "FrontEnd.h"
 #include "HeapSort.h"
-#include "HashMap.h"
 #include "extractSongs.h"
+#include "QuickSort.h"
 #include <fstream>
 #include <iostream>
 #include <SFML/Graphics.hpp>
 
 using namespace std;
-
 
 string FrontEnd::formatDate(string& date) {
     // Changes only the date
@@ -93,16 +92,16 @@ void FrontEnd::CreateChart(sf::Font welcome_font) {
         song_data = ConvertVec(arr);
         WriteToFile(song_data);
     }
-//    else if(blue_button_on){
-//        vector<pair<int, string> > arr;
-//        string filepath = "files/universal_top_spotify_songs.csv";
-//        arr = extractTopSongs(filepath);
-//        HashMap testHashMap;
-//        testHashMap.SortAndDisplaySongs(arr);
-//        vector<pair<string, string>> song_data;
-//        song_data = ConvertVec(arr);
-//        WriteToFile(song_data);
-//    }
+    else if(blue_button_on){
+        vector<pair<int, string> > arr;
+        string filepath = "files/universal_top_spotify_songs.csv";
+        arr = extractTopSongs(filepath);
+        QuickSort Quicksort;
+        Quicksort.Sort(arr);
+        vector<pair<string, string>> song_data;
+        song_data = ConvertVec(arr);
+        WriteToFile(song_data);
+    }
     sf::RenderWindow leaderboard_window(sf::VideoMode(1024, 768), "Ranked Song");
 
     // Header Text
