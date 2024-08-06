@@ -1,9 +1,13 @@
 #include "FrontEnd.h"
+#include "HeapSort.h"
+#include "HashMap.h"
+#include "extractSongs.h"
 #include <fstream>
 #include <iostream>
 #include <SFML/Graphics.hpp>
 
 using namespace std;
+
 
 string FrontEnd::formatDate(string& date) {
     // Changes only the date
@@ -38,9 +42,18 @@ void FrontEnd::CreateHomeScreen() {
         cout << "not working" << endl;
     }
 
+    sf::Texture buttonBlueTexture;
+    if (!buttonBlueTexture.loadFromFile("files/images/GenerateButtonBlue.png")) {
+        return;
+    }
+
     sf::Sprite buttonSprite;
     buttonSprite.setTexture(buttonTexture);
-    buttonSprite.setPosition((float) 440, (float) 350);
+    buttonSprite.setPosition((float) 350, (float) 359);
+
+    sf::Sprite buttonSpriteTwo;
+    buttonSpriteTwo.setTexture(buttonBlueTexture);
+    buttonSpriteTwo.setPosition((float) 550, (float) 359);
 
     while (window.isOpen()) {
         sf::Event event;
@@ -50,19 +63,46 @@ void FrontEnd::CreateHomeScreen() {
             }
             if (event.type == sf::Event::MouseButtonPressed) {
                 if (buttonSprite.getGlobalBounds().contains({ (float)event.mouseButton.x, (float)event.mouseButton.y })) {
+                    orange_button_on = !orange_button_on;
+                    CreateChart(welcome_font);
+                }
+                else if (buttonSpriteTwo.getGlobalBounds().contains({ (float)event.mouseButton.x, (float)event.mouseButton.y })) {
+                    blue_button_on = !blue_button_on;
                     CreateChart(welcome_font);
                 }
             }
+
         }
 
         window.clear(sf::Color(208, 240, 192));
         window.draw(welcome_text);
         window.draw(buttonSprite);
+        window.draw(buttonSpriteTwo);
         window.display();
     }
 }
 
 void FrontEnd::CreateChart(sf::Font welcome_font) {
+    if(orange_button_on) {
+        vector<pair<int, string> > arr;
+        string filepath = "files/universal_top_spotify_songs.csv";
+        arr = extractTopSongs(filepath);
+        HeapDataStructure heap;
+        heap.HeapSort(arr);
+        vector<pair<string, string>> song_data;
+        song_data = ConvertVec(arr);
+        WriteToFile(song_data);
+    }
+//    else if(blue_button_on){
+//        vector<pair<int, string> > arr;
+//        string filepath = "files/universal_top_spotify_songs.csv";
+//        arr = extractTopSongs(filepath);
+//        HashMap testHashMap;
+//        testHashMap.SortAndDisplaySongs(arr);
+//        vector<pair<string, string>> song_data;
+//        song_data = ConvertVec(arr);
+//        WriteToFile(song_data);
+//    }
     sf::RenderWindow leaderboard_window(sf::VideoMode(1024, 768), "Ranked Song");
 
     // Header Text
