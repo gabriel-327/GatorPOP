@@ -46,7 +46,7 @@ vector<pair<int, string> > extractTopSongs(string &filename) {
         return data;
     }
 
-    while (getline(file, currentLine) && uniqueSongsTracker.size() <= 50000) {
+    while (getline(file, currentLine) && uniqueSongsTracker.size() <= 100000) {
         stringstream ss(currentLine);
         string song, releaseDate;
 
