@@ -5,13 +5,20 @@
 
 using namespace std;
 
-void SetText(sf::Text &text, float x, float y) {
+string FrontEnd::formatDate(string& date) {
+    // Changes only the date
+    if (date.size() != 8) return date;
+    // Places the dashes into correct spot
+    return date.substr(0, 4) + "-" + date.substr(4, 2) + "-" + date.substr(6, 2);
+}
+
+void FrontEnd::SetText(sf::Text &text, float x, float y) {
     sf::FloatRect textRect = text.getLocalBounds();
     text.setOrigin(textRect.left + textRect.width / 2.0f, textRect.top + textRect.height / 2.0f);
     text.setPosition(sf::Vector2f(x, y));
 }
 
-int CreateHomeScreen() {
+void FrontEnd::CreateHomeScreen() {
     int width = 1024;
     int height = 768;
     sf::RenderWindow window(sf::VideoMode(width, height), "GATOR POP");
@@ -24,7 +31,7 @@ int CreateHomeScreen() {
 
     sf::Texture buttonTexture;
     if (!buttonTexture.loadFromFile("files/images/Generate Button.png")) {
-        return -1;
+        return;
     }
 
     if (!welcome_font.loadFromFile("files/font.ttf")) {
@@ -38,7 +45,7 @@ int CreateHomeScreen() {
     while (window.isOpen()) {
         sf::Event event;
         while (window.pollEvent(event)) {
-            if (event.type == sf::Event::Closed || event.type == sf::Event::KeyPressed) {
+            if (event.type == sf::Event::Closed) {
                 window.close();
             }
             if (event.type == sf::Event::MouseButtonPressed) {
@@ -53,66 +60,75 @@ int CreateHomeScreen() {
         window.draw(buttonSprite);
         window.display();
     }
-
-    return 0;
 }
 
-void CreateChart(sf::Font welcome_font) {
-    sf::RenderWindow leaderboard_window(sf::VideoMode(1024, 768), "Playlist");
+void FrontEnd::CreateChart(sf::Font welcome_font) {
+    sf::RenderWindow leaderboard_window(sf::VideoMode(1024, 768), "Ranked Song");
 
+    // Header Text
     sf::Text leaderboard_text("Songs Ranked By Release Date", welcome_font, 20);
     leaderboard_text.setFillColor(sf::Color::Black);
     leaderboard_text.setStyle(sf::Text::Bold | sf::Text::Underlined);
     SetText(leaderboard_text, 512, 50);
 
+    // Song list text
     string all_names;
     vector<string> leaderboard_vec = ReadFile();
-    for (int i = 0; i < leaderboard_vec.size() - 2; i += 2) {
+    for (int i = 0; i < leaderboard_vec.size() - 1; i += 2) {
         int num_place = i / 2 + 1;
-        if (num_place < 10) {
-            all_names += to_string(num_place) + ".     " + leaderboard_vec[i] + "\t" + leaderboard_vec[i + 1] + "\n\n";
+        string formattedDate = formatDate(leaderboard_vec[i]);
+
+        if(num_place < 10){
+            all_names += to_string(num_place) + ".     " + formattedDate + "\t" + leaderboard_vec[i + 1] + "\n\n";
         }
-        else {
-            all_names += to_string(num_place) + ".    " + leaderboard_vec[i] + "\t" + leaderboard_vec[i + 1] + "\n\n";
+        else{
+            all_names += to_string(num_place) + ".    " + formattedDate + "\t" + leaderboard_vec[i + 1] + "\n\n";
         }
     }
 
-    sf::Text player_data;
-    player_data.setString(all_names);
-    player_data.setFont(welcome_font);
-    player_data.setCharacterSize(18);
-    player_data.setFillColor(sf::Color::Black);
-    player_data.setStyle(sf::Text::Bold);
-    player_data.setPosition(512, 150); // Adjust initial position
+    sf::Text music_data;
+    music_data.setString(all_names);
+    music_data.setFont(welcome_font);
+    music_data.setCharacterSize(18);
+    music_data.setFillColor(sf::Color::Black);
+    music_data.setStyle(sf::Text::Bold);
 
-    sf::View view = leaderboard_window.getView();
+    sf::FloatRect textRect = music_data.getLocalBounds();
+    music_data.setOrigin(textRect.left + textRect.width / 2.0f, textRect.top);
+    music_data.setPosition(512, 100); // Centered horizontally, below the header
+
+    // View for scrolling content
+    sf::View contentView(sf::FloatRect(0, 100, 1024, 668)); // Leave space for the header
+    contentView.setViewport(sf::FloatRect(0, 100.f / 768, 1, 668.f / 768));
+
     float scroll_speed = 50.0f;
 
     while (leaderboard_window.isOpen()) {
         sf::Event event;
         while (leaderboard_window.pollEvent(event)) {
-            if (event.type == sf::Event::Closed || event.type == sf::Event::KeyPressed) {
+            if (event.type == sf::Event::Closed) {
                 leaderboard_window.close();
             }
             if (event.type == sf::Event::MouseWheelScrolled) {
                 if (event.mouseWheelScroll.delta > 0) {
-                    view.move(0, -scroll_speed);
+                    contentView.move(0, -scroll_speed);
+                } else {
+                    contentView.move(0, scroll_speed);
                 }
-                else {
-                    view.move(0, scroll_speed);
-                }
-                leaderboard_window.setView(view);
+                leaderboard_window.setView(contentView);
             }
         }
 
         leaderboard_window.clear(sf::Color(211, 211, 211));
+        leaderboard_window.setView(leaderboard_window.getDefaultView()); // Set view for static header
         leaderboard_window.draw(leaderboard_text);
-        leaderboard_window.draw(player_data);
+        leaderboard_window.setView(contentView); // Set view for scrolling content
+        leaderboard_window.draw(music_data);
         leaderboard_window.display();
     }
 }
 
-vector<string> ReadFile() {
+vector<string> FrontEnd::ReadFile() {
     ifstream readleaderboard("files/leaderboard.txt");
     string temp;
     vector<string> leaderboard_vec;
@@ -124,7 +140,7 @@ vector<string> ReadFile() {
     return leaderboard_vec;
 }
 
-void WriteToFile(vector<pair<string, string>> &song_data) {
+void FrontEnd::WriteToFile(vector<pair<string, string>> &song_data) {
     ofstream write_to_file("files/leaderboard.txt");
     int size = song_data.size();
     int start_index = max(0, size - 50);
@@ -133,7 +149,7 @@ void WriteToFile(vector<pair<string, string>> &song_data) {
     }
 }
 
-vector<pair<string, string>> ConvertVec(vector<pair<int, string>> &raw_data) {
+vector<pair<string, string>> FrontEnd::ConvertVec(vector<pair<int, string>> &raw_data) {
     vector<pair<string, string>> song_data;
     for (const auto &data : raw_data) {
         string date = to_string(data.first);
