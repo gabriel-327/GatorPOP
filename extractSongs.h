@@ -14,8 +14,8 @@
 #include <sstream>
 using namespace std;
 
-int dateFormatter(const string& dateString);
-vector<pair<int, string> > extractTopSongs(string& filename);
+int dateFormatter(const string& dateString); // date formatter function
+vector<pair<int, string> > extractTopSongs(string& filename); // data extractor
 
 
 #endif //GATORPOP_MAIN_EXTRACTSONGS_H
